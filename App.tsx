@@ -51,7 +51,11 @@ const App = () => {
     <NetworkProvider>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="Todo List" component={TodoListScreen} />
+          <Stack.Screen
+            name="Todo List"
+            component={TodoListScreen}
+            options={{ headerTitle: 'To Do List' }}
+          />
           <Stack.Screen name="Todo Item" component={TodoItemScreen} />
         </Stack.Navigator>
       </NavigationContainer>

@@ -136,12 +136,12 @@ export const TodoListScreen = ({ navigation, route }: any) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>To Do List</Text>
+      <Text style={styles.title}>Your Tasks</Text>
 
       <TextInput
         style={styles.searchInput}
         onChangeText={onChange}
-        placeholder="Впишите задачу..."
+        placeholder="Write your task here..."
       />
       <TouchableOpacity
         onPress={() => handleOnClickAddTodo(text)}
@@ -167,6 +167,7 @@ export const TodoListScreen = ({ navigation, route }: any) => {
                 navigation.navigate('Todo Item', {
                   text: item.name,
                   description: item.subTasks,
+                  id: item._id,
                   // newText: handleOnPressEdit,
                 })
               }
