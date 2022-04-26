@@ -79,22 +79,28 @@ export const TodoListScreen = ({ navigation, route }: any) => {
   const [listOfItems, setListOfItems] = useState<any>([]);
 
   const handleOnClickAddTodo = async (text: string) => {
-    const newTodo = {
-      _id: Date.now(),
-      name: text,
-      dateCreated: Date.now(),
-      status: 'unchecked',
-      isEdited: 0,
-      subTasks: 'Add description!!!',
-    };
-    const realm = await Realm.open({
-      path: 'myrealm',
-      schema: [TaskSchema2],
-    });
-    realm.write(() => {
-      realm.create('Tasks1', newTodo);
-    });
-    setListOfItems((list: any) => [newTodo, ...list]);
+    const filteredText = text
+      .split('')
+      .filter((el) => el != ' ')
+      .join('');
+    if (filteredText) {
+      const newTodo = {
+        _id: Date.now(),
+        name: text,
+        dateCreated: Date.now(),
+        status: 'unchecked',
+        isEdited: 0,
+        subTasks: 'Add description!!!',
+      };
+      const realm = await Realm.open({
+        path: 'myrealm',
+        schema: [TaskSchema2],
+      });
+      realm.write(() => {
+        realm.create('Tasks1', newTodo);
+      });
+      setListOfItems((list: any) => [newTodo, ...list]);
+    }
   };
 
   const handleOnPressDelete = async (id: number) => {

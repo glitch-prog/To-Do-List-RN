@@ -45,6 +45,19 @@ export const TodoItemScreen = ({ navigation, route }: any) => {
     setValue(text);
   };
 
+  const handleOnPressConfirmChanges = async () => {
+    const realm = await Realm.open({
+      path: 'myrealm',
+      schema: [TaskSchema2],
+    });
+    console.log(realm.objectForPrimaryKey('Tasks1', id));
+    realm.write(() => {
+      let myTask: any = realm.objectForPrimaryKey('Tasks1', id);
+      myTask['subTasks'] = value;
+    });
+    setIsEdited(!isEdited);
+  };
+
   useLayoutEffect(() => {
     getRealmData(id);
   }, []);
@@ -54,12 +67,17 @@ export const TodoItemScreen = ({ navigation, route }: any) => {
       <Text style={styles.todoName}>{text}</Text>
       <TouchableOpacity onPress={handleOnPressEdit}>
         {isEdited ? (
-          <TextInput
-            value={value}
-            onChangeText={(text) => handleOnChangeText(text)}
-          />
+          <View>
+            <TextInput
+              value={value}
+              onChangeText={(text) => handleOnChangeText(text)}
+            />
+            <TouchableOpacity onPress={() => handleOnPressConfirmChanges()}>
+              <Text>Confirm</Text>
+            </TouchableOpacity>
+          </View>
         ) : (
-          <Text style={styles.todoDescription}>{description}</Text>
+          <Text style={styles.todoDescription}>{value}</Text>
         )}
       </TouchableOpacity>
     </View>
